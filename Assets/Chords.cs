@@ -76,19 +76,19 @@ public class Chords : MonoBehaviour
         return intervals;
     }
 
-    void Update () {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            (string name, string[] degrees) chordType = ChordTypes[Random.Range(0, ChordTypes.Length)];
-            Note rootNote = (Note)Random.Range(0, 12);
-            var chord = GetChord(rootNote, chordType.degrees);
-            string c = rootNote.ToString() + " " + chordType.name + " -> ";
-            for (int n = 0; n < chord.Length; n++)
-            c += chord[n] + " ";
-            
-            Debug.Log(c);
-        }
-    } 
-    public Note[] GetChord (Note root, params string[] degrees) {
+    public void PickRandomChord () {
+        (string name, string[] degrees) chordType = 
+        ChordTypes[Random.Range(0, ChordTypes.Length)];
+        Note rootNote = (Note)Random.Range(0, 12);
+        Note[] chordNotes = GetChordNotes(rootNote, chordType.degrees);
+    }
+
+    public string ChordToString (Note[] notes, string type) {
+        string c = notes[0].ToString() + " " + type + " -> ";
+        for (int n = 0; n < notes.Length; n++) c += notes[n] + " ";
+        return c;
+    }
+    public Note[] GetChordNotes (Note root, params string[] degrees) {
         int[] intervals = degrees2Intervals(degrees);
         Note[] chord = new Note[intervals.Length];
         
