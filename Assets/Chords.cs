@@ -12,6 +12,7 @@ namespace Game
         public readonly Note rootNote;
         public readonly string type;
         public readonly Note[] notes;
+        public readonly string[] notesIntervals;
         public readonly string name;
 
         public Chord(Note rootNote, string type, Note[] notes, string name) {
@@ -19,6 +20,14 @@ namespace Game
             this.type = type;
             this.notes = notes;
             this.name = name;
+            this.notesIntervals = ChordBuilder.getChordTypeDegrees(type);
+        }
+        public bool Contains (Note n)
+        {
+            for (int i = 0; i < notes.Length; i++)
+                if (notes[i] == n) return true;
+
+            return false;
         }
     }
 }
@@ -96,6 +105,15 @@ public static class ChordBuilder
         
         return intervals;
     }
+    public static string[] getChordTypeDegrees(string type)
+    {
+        for (int i = 0; i < ChordTypes.Length; i++)
+        {
+            if (ChordTypes[i].name == type) return ChordTypes[i].degrees;
+        }
+
+        return null;
+    }
 
     public static Chord PickRandomChord () {
         (string type, string[] degrees) chordType = 
@@ -108,8 +126,8 @@ public static class ChordBuilder
     }
 
     public static string ChordToString (Note[] notes, string type) {
-        string c = notes[0].ToString() + " " + type + " -> ";
-        for (int n = 0; n < notes.Length; n++) c += notes[n] + " ";
+        string c = notes[0].ToString() + " " + type;
+        //for (int n = 0; n < notes.Length; n++) c += notes[n] + " ";
         return c;
     }
     public static Note[] GetChordNotes (Note root, params string[] degrees) {

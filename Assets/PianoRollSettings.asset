@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: PianoRollSettings
   m_EditorClassIdentifier: 
   InteractiveColor: {r: 0.25943398, g: 0.33247897, b: 1, a: 0}
+  positiveColor: {r: 0.5053354, g: 1, b: 0.18396229, a: 0}
+  negativeColor: {r: 0.9056604, g: 0, b: 0, a: 0}
   pressFeedbackSpeed: 25
   releaseFeedbackSpeed: 5

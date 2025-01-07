@@ -5,6 +5,9 @@ public class PianoKey : MonoBehaviour
 {
     public Note note;
     public PianoRollKeySettings settings;
+    public PianoKeyMarker marker;
+
+    public int state;
 
     protected MeshRenderer mesh;
     protected Transform keyTransform;
@@ -17,11 +20,15 @@ public class PianoKey : MonoBehaviour
 
     private void Awake()
     {
-        mesh = GetComponent<MeshRenderer>();
+        mesh = GetComponentInChildren<MeshRenderer>();
         keyTransform = mesh.transform;
         originalColor = mesh.material.GetColor("_Color");
     }
 
+    private void Start()
+    {
+        marker.HideMarker();
+    }
     private void Update()
     {
         if (pressed)
@@ -34,7 +41,9 @@ public class PianoKey : MonoBehaviour
         }
 
         keyTransform.rotation = Quaternion.Lerp(Quaternion.identity, pressedRotation, pressedValue);
-        mesh.material.SetColor("_Color", Color.Lerp(originalColor, settings.InteractiveColor, pressedValue));
+        mesh.material.SetColor("_Color", Color.Lerp(originalColor
+            , state == 0 ? settings.InteractiveColor : state == 1 ? settings.positiveColor : settings.negativeColor
+            , 1));
     }
 
     public void Press ()
@@ -45,4 +54,9 @@ public class PianoKey : MonoBehaviour
     {
         pressed = false;
     }
+
+    public void ShowMarker (string text, bool halfColor = false)=>
+        marker.ShowMarker(text, halfColor);
+    public void HideMarker()=>
+        marker.HideMarker();
 }

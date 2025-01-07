@@ -1,14 +1,21 @@
 using UnityEngine;
 using Game;
+using System.Collections.Generic;
 
 public class PianoRoll: MonoBehaviour 
 {
+    public static PianoRoll instance { get; private set; }
+
+
     protected PianoKey[] keys;
     protected int pianoOctavesSpan;
     protected int bottomOctave;
 
+    protected List<int> evaluationKeyIndex = new List<int>();
+
     private void Awake()
     {
+        instance = this;
         bottomOctave = -100;
     }
 
@@ -19,6 +26,33 @@ public class PianoRoll: MonoBehaviour
         MidiInput.instance.onNoteReleased += ReleaseNote;
 
         pianoOctavesSpan = Mathf.FloorToInt(keys.Length / 12f);
+    }
+
+    public void GetEvaluationKeyGroup (Chord c)
+    {
+        evaluationKeyIndex.Clear();
+        evaluationKeyIndex.AddRange(new int[c.notes.Length * pianoOctavesSpan - (int)c.rootNote]);
+
+        for (int n = 0; n < c.notes.Length; n++)
+        {
+            for (int k = 0; k < 12; k++)
+            {
+                if (keys[k].note == c.notes[n])
+                {
+                    for (int i = 0; i < pianoOctavesSpan; i++)
+                        evaluationKeyIndex.Insert(n + c.notes.Length * i, k + 12 * i);
+                }
+            }
+        }
+
+        for (int n = 0; n < keys.Length; n++)
+        {
+            keys[0].state = 0;
+        }
+        foreach (var item in evaluationKeyIndex)
+        {
+            keys[item].state = 1;
+        }
     }
 
     public PianoKey GetKey(Note note, int octave = 0) 
@@ -74,6 +108,34 @@ public class PianoRoll: MonoBehaviour
     {
         GetKey(note, GetProjectedOctave(octave)).Release();
         Debug.Log(octave);
+    }
+
+    public void ShowChordMarkers (Chord chord)
+    {
+        int currentChordNote = 0;
+        bool repeatingChord = false;
+
+        for (int n = 0;n < keys.Length; n++)
+        {
+            if (keys[n].note == chord.notes[currentChordNote])
+            {
+                keys[n].ShowMarker(chord.notesIntervals[currentChordNote], repeatingChord);
+                currentChordNote++;
+
+                if (currentChordNote >= chord.notes.Length)
+                {
+                    currentChordNote = 0;
+                    repeatingChord = true;
+                }
+            }
+        }
+    }
+    public void HideAllMarkers()
+    {
+        for (int n = 0; n < keys.Length; n++)
+        {
+            keys[n].HideMarker();
+        }
     }
 }
 
