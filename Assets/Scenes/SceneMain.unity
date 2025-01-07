@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6231decf44844e24f96cbe1dfe56a266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tmpChordName: {fileID: 2001926774}
 --- !u!1 &822420145
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,6 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b020223f18a9074cb5e70358f761f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bpm: 100
 --- !u!4 &822420147
 Transform:
   m_ObjectHideFlags: 0
@@ -335,7 +337,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2541789710906025672}
   - {fileID: 74484440}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -349,7 +350,6 @@ GameObject:
   m_Component:
   - component: {fileID: 932537575}
   - component: {fileID: 932537574}
-  - component: {fileID: 932537573}
   - component: {fileID: 932537572}
   m_Layer: 0
   m_Name: UICamera
@@ -402,14 +402,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &932537573
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 932537571}
-  m_Enabled: 1
 --- !u!20 &932537574
 Camera:
   m_ObjectHideFlags: 0
@@ -1224,50 +1216,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
---- !u!4 &2541789710906025672
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2886122275054795890}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -50, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 822420147}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2886122275054795890
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2541789710906025672}
-  - component: {fileID: 2886122275054795891}
-  m_Layer: 0
-  m_Name: Chords
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2886122275054795891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2886122275054795890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1988c17cf66a4c544936e9138171a841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6318738947694213641
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,16 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
+using Game;
+using TMPro;
 
 public class UIGame : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+    public TextMeshProUGUI tmpChordName;
+
+    void Start () {
+        MainGame.instance.onChordChange += UpdateChord;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void UpdateChord (Chord chord) {
+        tmpChordName.text = chord.name;
     }
 }

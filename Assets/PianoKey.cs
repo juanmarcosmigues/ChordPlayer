@@ -1,8 +1,9 @@
 using UnityEngine;
+using Game;
 
 public class PianoKey : MonoBehaviour
 {
-    public Chords.Note note;
+    public Note note;
     public PianoRollKeySettings settings;
 
     protected MeshRenderer mesh;

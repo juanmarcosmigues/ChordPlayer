@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Game;
 
 public class MidiInput : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class MidiInput : MonoBehaviour
 
     public bool inputEnabled = true;
 
-    public System.Action<Chords.Note, int> onNotePressedDown, onNoteReleased;
+    public System.Action<Note, int> onNotePressedDown, onNoteReleased;
 
     protected InputMidi midiInput;
     //ia = input action
@@ -67,63 +68,63 @@ public class MidiInput : MonoBehaviour
     protected virtual void Start()
     {
         iaActionC.started += 
-            _ => onNotePressedDown?.Invoke(Chords.Note.C, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.C, _.action.GetBindingIndexForControl(_.control));
         iaActionC.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.C, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.C, _.action.GetBindingIndexForControl(_.control));
 
         iaActionDb.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.Db, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.Db, _.action.GetBindingIndexForControl(_.control));
         iaActionDb.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.Db, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.Db, _.action.GetBindingIndexForControl(_.control));
 
         iaActionD.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.D, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.D, _.action.GetBindingIndexForControl(_.control));
         iaActionD.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.D, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.D, _.action.GetBindingIndexForControl(_.control));
 
         iaActionEb.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.Eb, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.Eb, _.action.GetBindingIndexForControl(_.control));
         iaActionEb.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.Eb, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.Eb, _.action.GetBindingIndexForControl(_.control));
 
         iaActionE.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.E, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.E, _.action.GetBindingIndexForControl(_.control));
         iaActionE.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.E, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.E, _.action.GetBindingIndexForControl(_.control));
 
         iaActionF.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.F, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.F, _.action.GetBindingIndexForControl(_.control));
         iaActionF.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.F, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.F, _.action.GetBindingIndexForControl(_.control));
 
         iaActionGb.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.Gb, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.Gb, _.action.GetBindingIndexForControl(_.control));
         iaActionGb.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.Gb, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.Gb, _.action.GetBindingIndexForControl(_.control));
 
         iaActionG.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.G, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.G, _.action.GetBindingIndexForControl(_.control));
         iaActionG.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.G, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.G, _.action.GetBindingIndexForControl(_.control));
 
         iaActionAb.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.Ab, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.Ab, _.action.GetBindingIndexForControl(_.control));
         iaActionAb.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.Ab, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.Ab, _.action.GetBindingIndexForControl(_.control));
 
         iaActionA.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.A, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.A, _.action.GetBindingIndexForControl(_.control));
         iaActionA.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.A, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.A, _.action.GetBindingIndexForControl(_.control));
 
         iaActionBb.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.Bb, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.Bb, _.action.GetBindingIndexForControl(_.control));
         iaActionBb.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.Bb, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.Bb, _.action.GetBindingIndexForControl(_.control));
 
         iaActionB.started +=
-            _ => onNotePressedDown?.Invoke(Chords.Note.B, _.action.GetBindingIndexForControl(_.control));
+            _ => onNotePressedDown?.Invoke(Note.B, _.action.GetBindingIndexForControl(_.control));
         iaActionB.canceled +=
-            _ => onNoteReleased?.Invoke(Chords.Note.B, _.action.GetBindingIndexForControl(_.control));
+            _ => onNoteReleased?.Invoke(Note.B, _.action.GetBindingIndexForControl(_.control));
     }
 }

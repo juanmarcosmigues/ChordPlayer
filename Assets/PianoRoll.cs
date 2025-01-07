@@ -1,4 +1,5 @@
 using UnityEngine;
+using Game;
 
 public class PianoRoll: MonoBehaviour 
 {
@@ -20,7 +21,7 @@ public class PianoRoll: MonoBehaviour
         pianoOctavesSpan = Mathf.FloorToInt(keys.Length / 12f);
     }
 
-    public PianoKey GetKey(Chords.Note note, int octave = 0) 
+    public PianoKey GetKey(Note note, int octave = 0) 
     {
         int currentOctave = 0;
         int currentKey = 0;
@@ -64,12 +65,12 @@ public class PianoRoll: MonoBehaviour
 
         return octave - bottomOctave;
     }
-    public void PressNote (Chords.Note note, int octave)
+    public void PressNote (Note note, int octave)
     {
         GetKey(note, GetProjectedOctave(octave)).Press();
         Debug.Log(octave);
     }
-    public void ReleaseNote(Chords.Note note, int octave)
+    public void ReleaseNote(Note note, int octave)
     {
         GetKey(note, GetProjectedOctave(octave)).Release();
         Debug.Log(octave);

@@ -1,10 +1,31 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Game;
 
-public class Chords : MonoBehaviour
+namespace Game 
 {
-    public enum Note {C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B}
+    public enum Note 
+    {C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B}
+
+    public struct Chord {
+        public readonly Note rootNote;
+        public readonly string type;
+        public readonly Note[] notes;
+        public readonly string name;
+
+        public Chord(Note rootNote, string type, Note[] notes, string name) {
+            this.rootNote = rootNote;
+            this.type = type;
+            this.notes = notes;
+            this.name = name;
+        }
+    }
+}
+
+public static class ChordBuilder
+{
+
       
     public static readonly string[] Degree = new string[] 
     {
@@ -55,20 +76,20 @@ public class Chords : MonoBehaviour
         ("Minor 13th", new string[]{"1", "b3", "5", "b7", "9", "11", "13"})
     };
 
-    public int notesAmount => System.Enum.GetNames(typeof(Note)).Length;
-    public int clampNote (int interval) => 
+    public static int notesAmount => System.Enum.GetNames(typeof(Note)).Length;
+    public static int clampNote (int interval) => 
     interval >= notesAmount 
     ? 
     interval - notesAmount
     : 
     interval;
-    public int degree2Interval (string degree) {
+    public static int degree2Interval (string degree) {
         for (int d = 0; d < Degree.Length; d++)
             if (Degree[d] == degree) return d;
         
         return -1;
     }
-    public int[] degrees2Intervals (params string[] degrees) {
+    public static int[] degrees2Intervals (params string[] degrees) {
         int[] intervals = new int[degrees.Length];
         for (int i = 0; i < intervals.Length; i++)
             intervals[i] = degree2Interval(degrees[i]);
@@ -76,19 +97,22 @@ public class Chords : MonoBehaviour
         return intervals;
     }
 
-    public void PickRandomChord () {
-        (string name, string[] degrees) chordType = 
+    public static Chord PickRandomChord () {
+        (string type, string[] degrees) chordType = 
         ChordTypes[Random.Range(0, ChordTypes.Length)];
         Note rootNote = (Note)Random.Range(0, 12);
         Note[] chordNotes = GetChordNotes(rootNote, chordType.degrees);
+        string chordName = ChordToString(chordNotes, chordType.type);
+
+        return new Chord(rootNote, chordType.type, chordNotes, chordName);
     }
 
-    public string ChordToString (Note[] notes, string type) {
+    public static string ChordToString (Note[] notes, string type) {
         string c = notes[0].ToString() + " " + type + " -> ";
         for (int n = 0; n < notes.Length; n++) c += notes[n] + " ";
         return c;
     }
-    public Note[] GetChordNotes (Note root, params string[] degrees) {
+    public static Note[] GetChordNotes (Note root, params string[] degrees) {
         int[] intervals = degrees2Intervals(degrees);
         Note[] chord = new Note[intervals.Length];
         
