@@ -43,7 +43,7 @@ public class PianoKey : MonoBehaviour
         keyTransform.rotation = Quaternion.Lerp(Quaternion.identity, pressedRotation, pressedValue);
         mesh.material.SetColor("_Color", Color.Lerp(originalColor
             , state == 0 ? settings.InteractiveColor : state == 1 ? settings.positiveColor : settings.negativeColor
-            , 1));
+            , pressedValue));
     }
 
     public void Press ()

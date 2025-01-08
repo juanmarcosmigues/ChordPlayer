@@ -30,29 +30,30 @@ public class PianoRoll: MonoBehaviour
 
     public void GetEvaluationKeyGroup (Chord c)
     {
-        evaluationKeyIndex.Clear();
-        evaluationKeyIndex.AddRange(new int[c.notes.Length * pianoOctavesSpan - (int)c.rootNote]);
+        // int d = (int)c.rootNote + c.notesSpan * pianoOctavesSpan;
 
-        for (int n = 0; n < c.notes.Length; n++)
+        evaluationKeyIndex.Clear();
+
+        int chordOctavesLength = c.notesIntervals[c.notesIntervals.Length-1] > 12 ? 2 : 1;
+
+        for (int k = 0; k < keys.Length; k++)
         {
-            for (int k = 0; k < 12; k++)
+            if (keys[k].note == c.rootNote)
             {
-                if (keys[k].note == c.notes[n])
-                {
-                    for (int i = 0; i < pianoOctavesSpan; i++)
-                        evaluationKeyIndex.Insert(n + c.notes.Length * i, k + 12 * i);
-                }
+                //if (chordOctavesLength) working here
+                for (int i = 0; i < c.notesIntervals.Length; i++)
+                    evaluationKeyIndex.Add(k + c.notesIntervals[i]);
             }
         }
 
-        for (int n = 0; n < keys.Length; n++)
-        {
-            keys[0].state = 0;
-        }
-        foreach (var item in evaluationKeyIndex)
-        {
-            keys[item].state = 1;
-        }
+        // for (int n = 0; n < keys.Length; n++)
+        // {
+        //     keys[0].state = 0;
+        // }
+        // foreach (var item in evaluationKeyIndex)
+        // {
+        //     keys[item].state = 1;
+        // }
     }
 
     public PianoKey GetKey(Note note, int octave = 0) 
@@ -119,7 +120,7 @@ public class PianoRoll: MonoBehaviour
         {
             if (keys[n].note == chord.notes[currentChordNote])
             {
-                keys[n].ShowMarker(chord.notesIntervals[currentChordNote], repeatingChord);
+                keys[n].ShowMarker(chord.notesDegrees[currentChordNote], repeatingChord);
                 currentChordNote++;
 
                 if (currentChordNote >= chord.notes.Length)

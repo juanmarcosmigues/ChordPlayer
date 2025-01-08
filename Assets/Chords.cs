@@ -8,19 +8,22 @@ namespace Game
     public enum Note 
     {C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B}
 
+    [System.Serializable]
     public struct Chord {
-        public readonly Note rootNote;
-        public readonly string type;
-        public readonly Note[] notes;
-        public readonly string[] notesIntervals;
-        public readonly string name;
-
+        public  Note rootNote;
+        public  string type;
+        public  Note[] notes;
+        public  string[] notesDegrees;
+        public int[] notesIntervals;
+        public  string name;
+        
         public Chord(Note rootNote, string type, Note[] notes, string name) {
             this.rootNote = rootNote;
             this.type = type;
             this.notes = notes;
             this.name = name;
-            this.notesIntervals = ChordBuilder.getChordTypeDegrees(type);
+            this.notesDegrees = ChordBuilder.getChordTypeDegrees(type);
+            this.notesIntervals = ChordBuilder.degrees2Intervals(notesDegrees);
         }
         public bool Contains (Note n)
         {
@@ -33,9 +36,7 @@ namespace Game
 }
 
 public static class ChordBuilder
-{
-
-      
+{      
     public static readonly string[] Degree = new string[] 
     {
         "1",
@@ -113,6 +114,9 @@ public static class ChordBuilder
         }
 
         return null;
+    }
+    public static int getForwardInterval (Note from, Note to) {
+        return (int)to-(int)from >= 0 ? (int)to-(int)from : (int)to-(int)from + notesAmount;
     }
 
     public static Chord PickRandomChord () {

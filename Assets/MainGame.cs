@@ -14,8 +14,8 @@ public class MainGame : MonoBehaviour
     protected float currentBarTime;
     protected float currentBeatTime;
 
-    public Chord nextChord {  get; private set; }
-    public Chord currentChord {get; private set;}
+    public Chord nextChord;
+    public Chord currentChord;
     public float currentBeatTimeNormalized => currentBeatTime / beatDuration;
     public float currentBarTimeNormalized => currentBarTime / barDuration;
 
