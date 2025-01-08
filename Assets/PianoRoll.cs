@@ -30,30 +30,28 @@ public class PianoRoll: MonoBehaviour
 
     public void GetEvaluationKeyGroup (Chord c)
     {
-        // int d = (int)c.rootNote + c.notesSpan * pianoOctavesSpan;
-
         evaluationKeyIndex.Clear();
 
-        int chordOctavesLength = c.notesIntervals[c.notesIntervals.Length-1] > 12 ? 2 : 1;
+        for (int n = 0; n < keys.Length; n++)
+        {
+            keys[n].state = -1;
+        }
 
         for (int k = 0; k < keys.Length; k++)
         {
-            if (keys[k].note == c.rootNote)
+            if (keys[k].note == c.notes[0])
             {
-                //if (chordOctavesLength) working here
-                for (int i = 0; i < c.notesIntervals.Length; i++)
-                    evaluationKeyIndex.Add(k + c.notesIntervals[i]);
+                for (int i = 0; i < c.intervals.Length; i++)
+                {
+                    if (k + c.intervals[i] >= keys.Length) break;
+
+                    evaluationKeyIndex.Add(k + c.intervals[i]);
+                    keys[k + c.intervals[i]].state = 1;
+                }
+
+                k += c.intervals[c.intervals.Length - 1];
             }
         }
-
-        // for (int n = 0; n < keys.Length; n++)
-        // {
-        //     keys[0].state = 0;
-        // }
-        // foreach (var item in evaluationKeyIndex)
-        // {
-        //     keys[item].state = 1;
-        // }
     }
 
     public PianoKey GetKey(Note note, int octave = 0) 
@@ -120,7 +118,7 @@ public class PianoRoll: MonoBehaviour
         {
             if (keys[n].note == chord.notes[currentChordNote])
             {
-                keys[n].ShowMarker(chord.notesDegrees[currentChordNote], repeatingChord);
+                keys[n].ShowMarker(chord.degrees[currentChordNote], repeatingChord);
                 currentChordNote++;
 
                 if (currentChordNote >= chord.notes.Length)

@@ -443,6 +443,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 70
+  maxType: 6
+  inversionChance: 0.459
+  nextChord:
+    rootNote: 0
+    type: 
+    notes: 
+    degrees: []
+    intervals: 
+    name: 
+    inversion: 0
+  currentChord:
+    rootNote: 0
+    type: 
+    notes: 
+    degrees: []
+    intervals: 
+    name: 
+    inversion: 0
 --- !u!4 &822420147
 Transform:
   m_ObjectHideFlags: 0

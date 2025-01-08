@@ -5,6 +5,9 @@ public class MainGame : MonoBehaviour
 {
     public static MainGame instance {get; private set;}
     public float bpm = 100f;
+    public int maxType = 0;
+    [Range(0f, 1f)]
+    public float inversionChance;
     
     protected float beatDuration = 0f;
     protected float barDuration = 0f;
@@ -34,8 +37,10 @@ public class MainGame : MonoBehaviour
 
     private void Start()
     {
-        UpdateNextChord(ChordBuilder.PickRandomChord());
+        UpdateNextChord(ChordBuilder.PickRandomChord(maxType, inversionChance));
+        //UpdateNextChord(ChordBuilder.GetChord(Note.Ab, 1, 0));
     }
+
     void Update () {
         currentBeatTime += Time.deltaTime;
         currentBarTime += Time.deltaTime;
@@ -62,7 +67,8 @@ public class MainGame : MonoBehaviour
     {
         currentBarTime = currentBeatTime;
 
-        UpdateChord(ChordBuilder.PickRandomChord());
+        UpdateChord(ChordBuilder.PickRandomChord(maxType, inversionChance));
+        //UpdateChord(ChordBuilder.GetChord(Note.Ab, 2, 2));
         onBar?.Invoke();
     }
 

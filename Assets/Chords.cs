@@ -9,21 +9,44 @@ namespace Game
     {C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B}
 
     [System.Serializable]
-    public struct Chord {
-        public  Note rootNote;
-        public  string type;
-        public  Note[] notes;
-        public  string[] notesDegrees;
-        public int[] notesIntervals;
-        public  string name;
+    public struct Chord 
+    {
+        public Note rootNote;
+        public string type;
+        public Note[] notes;
+        public string[] degrees;
+        public int[] intervals;
+        public string name;
+        public int inversion;
         
-        public Chord(Note rootNote, string type, Note[] notes, string name) {
-            this.rootNote = rootNote;
-            this.type = type;
-            this.notes = notes;
-            this.name = name;
-            this.notesDegrees = ChordBuilder.getChordTypeDegrees(type);
-            this.notesIntervals = ChordBuilder.degrees2Intervals(notesDegrees);
+        public Chord(Note rootNote, int type, int inversion) 
+        {
+            (string type, string[] degrees) 
+                chordTypeData = ChordBuilder.ChordTypes[type];
+
+            this.notes = ChordBuilder.GetChordNotes(rootNote, chordTypeData.degrees);
+            this.type = chordTypeData.type;
+            this.degrees = chordTypeData.degrees.Copy();
+            this.intervals = ChordBuilder.degrees2Intervals(degrees);
+            this.name = ChordBuilder.ChordToString(this.notes, chordTypeData.type);
+            this.inversion = type < 13 ? inversion : 0;
+
+            this.rootNote = notes[0];
+
+            if (inversion > 0)
+                ApplyInversion(inversion);
+        }
+        public void ApplyInversion (int note)
+        {
+            notes = notes.StartFrom(note);
+
+            for (int i = 1; i < notes.Length; i++)
+            {
+                intervals[i] = ChordBuilder.getForwardInterval(notes[0], notes[i]);
+                degrees[i] = ChordBuilder.Degree[intervals[i]];
+            }
+
+            name += "/" + notes[0];
         }
         public bool Contains (Note n)
         {
@@ -63,7 +86,9 @@ public static class ChordBuilder
         ("Sus2", new string[]{"1", "2", "5"}),
         ("Sus4", new string[]{"1", "4", "5"}),
         ("Diminished", new string[]{"1", "b3", "b5"}),
-        ("Augmented", new string[]{"1", "3", "b6"}),
+        ("Augmented", new string[]{"1", "3", "b6"}), 
+        
+        //TRIAD CHORDS INDEX END = 6
 
         ("Major 6th", new string[]{"1", "3", "5", "6"}),
         ("Minor 6th", new string[]{"1", "b3", "5", "6"}),
@@ -73,13 +98,19 @@ public static class ChordBuilder
         ("Half Diminished 7th", new string[]{"1", "b3", "b5", "b7"}),
         ("Diminished 7th", new string[]{"1", "b3", "b5", "6"}),
 
+        //SEVENTH CHORDS INDEX END = 13
+
         ("Dominant 9th", new string[]{"1", "3", "5", "b7", "9"}),
         ("Major 9th", new string[]{"1", "3", "5", "7", "9"}),
         ("Minor 9th", new string[]{"1", "b3", "5", "b7", "9"}),
 
+        //9TH CHORDS INDEX END = 16
+
         ("Dominant 11th", new string[]{"1", "3", "5", "b7", "9", "11"}),
         ("Major 11th", new string[]{"1", "3", "5", "7", "9", "11"}),
         ("Minor 11th", new string[]{"1", "b3", "5", "b7", "9", "11"}),
+
+        //11TH CHORDS INDEX END = 19
 
         ("Dominant 13th", new string[]{"1", "3", "5", "b7", "9", "11", "13"}),
         ("Major 13th", new string[]{"1", "3", "5", "7", "9", "11", "13"}),
@@ -93,9 +124,10 @@ public static class ChordBuilder
     interval - notesAmount
     : 
     interval;
+
     public static int degree2Interval (string degree) {
-        for (int d = 0; d < Degree.Length; d++)
-            if (Degree[d] == degree) return d;
+        for (int i = 0; i < Degree.Length; i++)
+            if (Degree[i] == degree) return i;
         
         return -1;
     }
@@ -119,14 +151,23 @@ public static class ChordBuilder
         return (int)to-(int)from >= 0 ? (int)to-(int)from : (int)to-(int)from + notesAmount;
     }
 
-    public static Chord PickRandomChord () {
-        (string type, string[] degrees) chordType = 
-        ChordTypes[Random.Range(0, ChordTypes.Length)];
+    public static Chord PickRandomChord (int maxType, float inversionChance) 
+    {
         Note rootNote = (Note)Random.Range(0, 12);
-        Note[] chordNotes = GetChordNotes(rootNote, chordType.degrees);
-        string chordName = ChordToString(chordNotes, chordType.type);
+        int typeIndex = Random.Range(0, maxType+1);
+        int inversion =
+            Random.Range(0f, 1f) < inversionChance
+            ?
+            Random.Range(1, ChordTypes[typeIndex].degrees.Length)
+            :
+            0;
 
-        return new Chord(rootNote, chordType.type, chordNotes, chordName);
+        return GetChord(rootNote, typeIndex, inversion);
+    }
+
+    public static Chord GetChord (Note note, int type, int inversion)
+    {
+        return new Chord(note, type, type < 13 ? inversion : 0);
     }
 
     public static string ChordToString (Note[] notes, string type) {
